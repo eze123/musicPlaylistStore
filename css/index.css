@@ -1,0 +1,13 @@
+#album {
+    width: 75%;
+    float: left;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+#cart {
+    width: 75%;
+    float: left;
+    margin-left: 2%;
+    margin-top: 2%;
+	/*display:none;*/
+}
