@@ -1,17 +1,16 @@
-
-var populateAlbums = function(thisanchor){	
-	clearAlbumBoxes();
+Album = function(genreAnchor, albumtable){
+	this.genre = genreAnchor;
 	
-	tableInstance = $('#tablezone').DataTable();
-	tableInstance
-	    .destroy();
-	retrieveAlbumAjax(thisanchor);
-
+	this.albumtable = albumtable;
 }
 
-//function retrieves the albums for the playlist genre clicked
-function retrieveAlbumAjax(genreSelected){
-	tableInstance = $('#tablezone').DataTable({
+Album.prototype.displayAlbum = function(){
+	clearAlbumBoxes();
+	
+	this.albumtable
+	    .destroy();
+	
+	this.albumtable = $('#tablezone').DataTable({
         "processing": false,
         "serverSide": true,
 		"retrieve": true,
@@ -20,9 +19,10 @@ function retrieveAlbumAjax(genreSelected){
             "type": "GET",
             "data": {
                 "route": "getGenreAlbum",
-				 "genre":genreSelected
+				 "genre":this.genre
             },
 			"dataSrc":function(json){
+
 				return json["recordsTotal"] > 0 ?  json["data"] : 0;
 			},
             "columns"    : [
@@ -34,28 +34,14 @@ function retrieveAlbumAjax(genreSelected){
 	});
 }
 
-//adds album to the selected music genre
-$("#addAlbum").click(function(){
-	
-	if(typeof formerAnchor == 'undefined'){
-		alert("You need to select the genre to which the album belongs");
-		return;
-	}
-	
-	if(document.getElementById("txtAlbum").value == "" || document.getElementById("txtArtist").value == "" || document.getElementById("txtYear").value == ""){
-		alert("You need to provide the album's title, artist and year in order to add one!");
-		return;
-	}
-	
-	var albumtable = $('#tablezone').DataTable();
-	
+Album.prototype.addToAlbum = function(){
 	var iterator = [];
 	
 	var objtableFields = new Object();
 	
-	for(var i=0; i < albumtable.rows().count(); i++){
+	for(var i=0; i < this.albumtable.rows().count(); i++){
 		var aryTableFields = [];
-		aryTableFields = albumtable.row(i).data();
+		aryTableFields = this.albumtable.row(i).data();
 
 		for(var x=0; x < iterator.length; x++){
 			if(iterator[x][0] == aryTableFields[0] && iterator[x][1] == aryTableFields[1] && iterator[x][2] == aryTableFields[2]){
@@ -99,4 +85,47 @@ $("#addAlbum").click(function(){
 			}
 		}
 	});
+}
+
+Album.prototype.removeAlbum = function(){
+	
+	this.albumtable.row('.selected').remove().draw( false );
+}
+
+var populateAlbums = function(thisanchor){	
+	clearAlbumBoxes();
+	
+	tableInstance = $('#tablezone').DataTable();
+	
+	var album = new Album(thisanchor, tableInstance);
+	album.displayAlbum();
+
+}
+
+//function retrieves the albums for the playlist genre clicked
+$("#addAlbum").click(function(){
+	
+	if(typeof formerAnchor == 'undefined'){
+		alert("You need to select the genre to which the album belongs");
+		return;
+	}
+	
+	if(document.getElementById("txtAlbum").value == "" || document.getElementById("txtArtist").value == "" || document.getElementById("txtYear").value == ""){
+		alert("You need to provide the album's title, artist and year in order to add one!");
+		return;
+	}
+	
+	var albumtable = $('#tablezone').DataTable();
+	
+	var album = new Album(formerAnchor, albumtable);
+	album.addToAlbum();
+	
+	
+});
+
+$("#removeAlbum").click(function(){
+	var albumtable = $('#tablezone').DataTable();
+	
+	var album = new Album(null, albumtable);
+	album.removeAlbum();
 });
