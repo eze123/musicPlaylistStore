@@ -13,22 +13,22 @@ Album.prototype.displayAlbum = function(){
 	this.albumtable = $('#tablezone').DataTable({
         "processing": false,
         "serverSide": true,
-		"retrieve": true,
-		"ajax": {
-			url:"/musicplayliststore/app/Http/Core/Router.php",
+        "retrieve": true,
+        "ajax": {
+            url:"/musicplayliststore/app/Http/Core/Router.php",
             "type": "GET",
             "data": {
                 "route": "getGenreAlbum",
-				 "genre":this.genre
+                "genre":this.genre
             },
-			"dataSrc":function(json){
+            "dataSrc":function(json){
 
-				return json["recordsTotal"] > 0 ?  json["data"] : 0;
+                return json["recordsTotal"] > 0 ?  json["data"] : 0;
 			},
             "columns"    : [
                 {'data': 'title'},
                 {'data': 'artist'},
-				{'data': 'year'}
+                {'data': 'year'}
             ]
 		}
 	});
