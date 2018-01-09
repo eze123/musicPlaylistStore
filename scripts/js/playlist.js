@@ -16,15 +16,15 @@ $("document").ready(function(){
             tableInstance.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
 						
-			arrayRow = tableInstance.row( this ).data();
+            arrayRow = tableInstance.row( this ).data();
 			
-			document.getElementById('txtAlbum').value = arrayRow[0];
+            document.getElementById('txtAlbum').value = arrayRow[0];
 			
-			document.getElementById('txtArtist').value = arrayRow[1];
+            document.getElementById('txtArtist').value = arrayRow[1];
 			
-			document.getElementById('txtYear').value = arrayRow[2];
+            document.getElementById('txtYear').value = arrayRow[2];
 			
-			document.getElementById('txtPrice').value = arrayRow[3];
+            document.getElementById('txtPrice').value = arrayRow[3];
         }
     } );
 	
