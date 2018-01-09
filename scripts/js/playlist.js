@@ -28,7 +28,9 @@ $("document").ready(function(){
         }
     } );
 	
-	initCheckoutTable();
+	carttableInstance = $('#tablecart').DataTable();
+	var initCart = new Cart(carttableInstance);
+	initCart.initCheckoutTable();
 	
 	//ajax call that retrieves the music genres for the app
 	$.ajax({
