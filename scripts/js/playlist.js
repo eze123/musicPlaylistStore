@@ -10,7 +10,7 @@ $("document").ready(function(){
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
 			
-			clearAlbumBoxes();
+            clearAlbumBoxes();
         }
         else {
             tableInstance.$('tr.selected').removeClass('selected');
